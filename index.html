@@ -825,6 +825,34 @@ AOS.init({ duration: 800, offset: 50 });
 document.getElementById("mobile-menu-btn").addEventListener("click", () => {
   document.getElementById("mobile-menu").classList.toggle("hidden");
 });
+// Automatically close mobile menu when clicking outside or scrolling
+document.addEventListener("click", (e) => {
+    const menu = document.getElementById("mobile-menu");
+    const btn = document.getElementById("mobile-menu-btn");
+
+    // If menu open and click NOT on button or inside menu → close
+    if (!menu.classList.contains("hidden")) {
+        if (!menu.contains(e.target) && !btn.contains(e.target)) {
+            menu.classList.add("hidden");
+        }
+    }
+});
+
+// Close mobile menu when user scrolls
+window.addEventListener("scroll", () => {
+    const menu = document.getElementById("mobile-menu");
+    if (!menu.classList.contains("hidden")) {
+        menu.classList.add("hidden");
+    }
+});
+
+// Close when clicking any menu link
+document.querySelectorAll("#mobile-menu a").forEach((item) => {
+    item.addEventListener("click", () => {
+        document.getElementById("mobile-menu").classList.add("hidden");
+    });
+});
+
 
 
 /* ------------------------------------------------------
