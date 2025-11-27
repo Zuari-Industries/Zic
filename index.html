@@ -647,27 +647,42 @@
 
     </main>
 
-    <!-- SCRIPTS -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
 
-        document.getElementById("email-form").addEventListener("submit", async (e) => {
+/* ------------------------------------------------------
+   FORM SUBMISSION — MERGED (BACKEND + VALIDATION)
+   Prevent double-submit + enforce @adventz.com domain
+------------------------------------------------------ */
+document.getElementById("email-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const emailInput = document.getElementById("email-input");
   const msg = document.getElementById("email-msg");
+  const submitBtn = e.target.querySelector("button[type='submit']");
+  const email = emailInput.value.trim();
+  const regex = /^[a-zA-Z0-9._%+-]+@adventz\.com$/;
+
+  // Hide previous messages
   msg.classList.add("hidden");
 
-  const email = emailInput.value.trim();
+  // Disable button immediately to prevent double clicking
+  submitBtn.disabled = true;
+  submitBtn.classList.add("opacity-50", "cursor-not-allowed");
 
-  if (!email) {
-    
+  // FRONTEND VALIDATION
+  if (!regex.test(email)) {
+    msg.textContent = "Please use an @adventz.com email.";
+    msg.className = "text-sm font-bold mt-2 text-red-500";
     msg.classList.remove("hidden");
-    
+
+    submitBtn.disabled = false;
+    submitBtn.classList.remove("opacity-50", "cursor-not-allowed");
     return;
   }
 
   try {
+    // BACKEND REQUEST
     const res = await fetch("/api/register", {
       method: "POST",
       body: JSON.stringify({ email })
@@ -676,218 +691,199 @@
     const data = await res.json();
 
     if (data.success) {
-      
+      // SUCCESS
+      msg.textContent = "Success! Welcome aboard.";
+      msg.className = "text-sm font-bold mt-2 text-green-500";
       msg.classList.remove("hidden");
-     
+
       emailInput.value = "";
     } else {
-      
+      // BACKEND ERROR
+      msg.textContent = "Something went wrong. Try again.";
+      msg.className = "text-sm font-bold mt-2 text-red-500";
       msg.classList.remove("hidden");
-      
     }
-
   } catch (err) {
-    
+    // NETWORK FAILURE
+    msg.textContent = "Server error. Try again.";
+    msg.className = "text-sm font-bold mt-2 text-red-500";
     msg.classList.remove("hidden");
-    
   }
+
+  // Always allow retry after backend responds
+  submitBtn.disabled = false;
+  submitBtn.classList.remove("opacity-50", "cursor-not-allowed");
 });
-    
 
 
-
-
-
-
-
-        function changeLocalVideo(src) {
-    const player = document.getElementById('main-video-player');
+/* ------------------------------------------------------
+   MAIN VIDEO SWITCHER
+------------------------------------------------------ */
+function changeLocalVideo(src) {
+  const player = document.getElementById("main-video-player");
+  if (player) {
     player.src = src;
-    player.play();
+    const promise = player.play();
+    if (promise) promise.catch(() => {});
+  }
 }
 
-// AUTO-THUMBNAIL GENERATOR
+
+/* ------------------------------------------------------
+   AUTO-THUMBNAIL GENERATOR (works with Cloudinary URLs)
+------------------------------------------------------ */
 async function generateThumbnail(videoSrc, container) {
-    return new Promise(resolve => {
-        const video = document.createElement('video');
-        video.src = videoSrc;
-        video.crossOrigin = "anonymous";
-        video.muted = true;
-        video.playsInline = true;
+  return new Promise((resolve) => {
+    const video = document.createElement("video");
+    video.src = videoSrc;
+    video.crossOrigin = "anonymous";
+    video.muted = true;
+    video.playsInline = true;
 
-        video.addEventListener('loadeddata', () => {
-            video.currentTime = 0.5; // pick frame at 0.5 sec
-        });
-
-        video.addEventListener('seeked', () => {
-            const canvas = document.createElement('canvas');
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-            const thumbnailURL = canvas.toDataURL('image/jpeg');
-
-            container.style.backgroundImage = `url(${thumbnailURL})`;
-            container.style.backgroundSize = "cover";
-            container.style.backgroundPosition = "center";
-
-            resolve();
-        });
+    video.addEventListener("loadeddata", () => {
+      video.currentTime = 0.5;
     });
+
+    video.addEventListener("seeked", () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      container.style.backgroundImage = `url(${canvas.toDataURL("image/jpeg")})`;
+      container.style.backgroundSize = "cover";
+      container.style.backgroundPosition = "center";
+
+      resolve();
+    });
+  });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    const thumbItems = document.querySelectorAll("[data-video]");
-    thumbItems.forEach(div => {
-        generateThumbnail(div.dataset.video, div);
-    });
+  document.querySelectorAll("[data-video]").forEach((div) => {
+    generateThumbnail(div.dataset.video, div);
+  });
 });
-        // Init AOS
-        AOS.init({ duration: 800, offset: 50 });
 
-        // Mobile Menu
-        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
-        });
 
-        // Placeholder Links
-        document.getElementById('nav-talk-btn').addEventListener('click', (e) => {
-            e.preventDefault();
-            window.open('https://calendly.com/admin-zuari360/30min', '_blank');
-        });
+/* ------------------------------------------------------
+   AOS ANIMATIONS
+------------------------------------------------------ */
+AOS.init({ duration: 800, offset: 50 });
 
-        // Email Validation
-        const emailForm = document.getElementById('email-form');
-        const emailMsg = document.getElementById('email-msg');
-        emailForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const val = document.getElementById('email-input').value;
-            const regex = /^[a-zA-Z0-9._%+-]+@adventz\.com$/;
-            emailMsg.classList.remove('hidden');
-            if(regex.test(val)) {
-                emailMsg.innerText = "Success! Welcome aboard.";
-                emailMsg.className = "text-sm font-bold mt-2 text-green-500";
-                console.log("Logged:", val);
-            } else {
-                emailMsg.innerText = "Please use an @adventz.com email.";
-                emailMsg.className = "text-sm font-bold mt-2 text-red-500";
-            }
-        });
 
-        // Video Switcher for Mutual Fund Section
-        function changeLocalVideo(src) {
-            const mainVideo = document.getElementById('main-video-player');
-            if (mainVideo) {
-                mainVideo.src = src;
-                // Added error handling for play() to prevent Unhandled Rejection in environments where files are missing
-                var playPromise = mainVideo.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(error => {
-                        console.log('Media play prevented or failed (likely missing file in this demo environment):', error);
-                    });
-                }
-            }
-        }
+/* ------------------------------------------------------
+   MOBILE MENU
+------------------------------------------------------ */
+document.getElementById("mobile-menu-btn").addEventListener("click", () => {
+  document.getElementById("mobile-menu").classList.toggle("hidden");
+});
 
-        // FAQ Toggle
-        function toggleFaq(btn) {
-            const content = btn.nextElementSibling;
-            const icon = btn.querySelector('.accordion-icon');
-            content.classList.toggle('hidden');
-            if(!content.classList.contains('hidden')) {
-                icon.innerText = "−"; // Minus
-                icon.style.transform = "rotate(0deg)";
-            } else {
-                icon.innerText = "+";
-                icon.style.transform = "rotate(0deg)";
-            }
-        }
 
-        // Calculator Logic (Simplified for layout)
-        const ctx = document.getElementById('finChart').getContext('2d');
-        let myChart;
+/* ------------------------------------------------------
+   NAV: TALK TO US (Calendly)
+------------------------------------------------------ */
+document.getElementById("nav-talk-btn").addEventListener("click", (e) => {
+  e.preventDefault();
+  window.open("https://calendly.com/admin-zuari360/30min", "_blank");
+});
 
-        const amountInput = document.getElementById('amount');
-        const timeInput = document.getElementById('time');
-        const amtDisplay = document.getElementById('amt-display');
-        const timeDisplay = document.getElementById('time-display');
-        const resDisplay = document.getElementById('result-display');
 
-        function updateChart(p, r, n, type) {
-            if(myChart) myChart.destroy();
-            
-            // Simple EMI Calculation for visuals
-            let emi = 0;
-            let total = 0;
-            let interest = 0;
-            
-            // Standard formulas
-            if(type === 'loan') {
-                r = r / 12 / 100;
-                n = n * 12;
-                emi = (p * r * Math.pow(1+r, n)) / (Math.pow(1+r,n)-1);
-                total = emi * n;
-                interest = total - p;
-                resDisplay.innerText = "₹ " + Math.round(emi).toLocaleString();
-            } else {
-                // SIP
-                // Just a dummy visual for SIP
-                emi = p; // Monthly investment
-                resDisplay.innerText = "₹ " + Math.round(emi).toLocaleString();
-                total = p * n * 12 * 1.5; // Dummy returns
-                interest = total - (p * n * 12);
-            }
+/* ------------------------------------------------------
+   FAQ ACCORDION
+------------------------------------------------------ */
+function toggleFaq(btn) {
+  const content = btn.nextElementSibling;
+  const icon = btn.querySelector(".accordion-icon");
 
-            myChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Principal', 'Interest/Returns'],
-                    datasets: [{
-                        data: [p, interest],
-                        backgroundColor: ['#FCA311', '#333333'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom', labels: { color: '#fff' } }
-                    }
-                }
-            });
-        }
+  content.classList.toggle("hidden");
+  icon.textContent = content.classList.contains("hidden") ? "+" : "−";
+}
 
-        let currentType = 'loan';
 
-        function setGoal(goal, btn) {
-            document.querySelectorAll('.calc-tab').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            if(goal === 'home' || goal === 'car') currentType = 'loan';
-            else currentType = 'sip';
-            
-            recalc();
-        }
+/* ------------------------------------------------------
+   CALCULATOR (LOAN + SIP)
+------------------------------------------------------ */
+const ctx = document.getElementById("finChart").getContext("2d");
+let myChart;
 
-        function recalc() {
-            const p = parseInt(amountInput.value);
-            const t = parseInt(timeInput.value);
-            
-            amtDisplay.innerText = "₹ " + p.toLocaleString();
-            timeDisplay.innerText = t + " Yrs";
-            
-            updateChart(p, 8.5, t, currentType);
-        }
+const amountInput = document.getElementById("amount");
+const timeInput = document.getElementById("time");
+const amtDisplay = document.getElementById("amt-display");
+const timeDisplay = document.getElementById("time-display");
+const resDisplay = document.getElementById("result-display");
 
-        amountInput.addEventListener('input', recalc);
-        timeInput.addEventListener('input', recalc);
+let currentType = "loan";
 
-        // Init
-        recalc();
+function updateChart(p, r, n, type) {
+  if (myChart) myChart.destroy();
 
-    </script>
+  let principal = p;
+  let interest = 0;
+
+  if (type === "loan") {
+    const monthlyRate = r / 12 / 100;
+    const months = n * 12;
+    const emi =
+      (principal * monthlyRate * Math.pow(1 + monthlyRate, months)) /
+      (Math.pow(1 + monthlyRate, months) - 1);
+
+    interest = emi * months - principal;
+    resDisplay.textContent = "₹ " + Math.round(emi).toLocaleString();
+  } else {
+    // SIP dummy logic (visual only)
+    const total = p * n * 12 * 1.5;
+    interest = total - p * n * 12;
+    resDisplay.textContent = "₹ " + p.toLocaleString();
+  }
+
+  myChart = new Chart(ctx, {
+    type: "doughnut",
+    data: {
+      labels: ["Principal", "Returns"],
+      datasets: [
+        {
+          data: [principal, interest],
+          backgroundColor: ["#FCA311", "#333333"],
+          borderWidth: 0,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { position: "bottom", labels: { color: "#fff" } } },
+    },
+  });
+}
+
+function setGoal(goal, btn) {
+  document.querySelectorAll(".calc-tab").forEach((b) => b.classList.remove("active"));
+  btn.classList.add("active");
+
+  currentType = ["home", "car"].includes(goal) ? "loan" : "sip";
+
+  recalc();
+}
+
+function recalc() {
+  const p = Number(amountInput.value);
+  const t = Number(timeInput.value);
+
+  amtDisplay.textContent = "₹ " + p.toLocaleString();
+  timeDisplay.textContent = t + " Yrs";
+
+  updateChart(p, 8.5, t, currentType);
+}
+
+amountInput.addEventListener("input", recalc);
+timeInput.addEventListener("input", recalc);
+
+recalc();
+
+</script>
+
 </body>
 </html>
