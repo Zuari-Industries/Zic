@@ -717,9 +717,11 @@ document.getElementById("email-form").addEventListener("submit", async (e) => {
       // SHOW TOAST ONLY ON SUCCESS
         showToast();
 
-        msg.textContent = "Success! Welcome aboard.";
-        msg.className = "text-sm font-bold mt-2 text-green-500";
-        msg.classList.remove("hidden");
+       msg.textContent = "Success! Welcome aboard.";
+       msg.className =
+       "text-base font-extrabold mt-3 text-[#A3E635] bg-[#A3E635]/15 px-3 py-2 rounded-md border border-[#A3E635]/40 shadow-sm";
+       msg.classList.remove("hidden");
+
 
 
       emailInput.value = "";
