@@ -646,9 +646,29 @@
         </footer>
 
     </main>
+    <!-- Toast Notification -->
+<div id="toast-success" 
+    class="fixed top-4 left-1/2 -translate-x-1/2 z-[9999] 
+           bg-green-500 text-black font-bold px-6 py-3 rounded-lg 
+           shadow-lg transition-all duration-500 opacity-0 pointer-events-none">
+    Success!! You are registered — RM will reach you shortly.
+</div>
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
+// Toast Function
+function showToast() {
+  const toast = document.getElementById("toast-success");
+
+  toast.classList.remove("opacity-0");
+  toast.classList.add("opacity-100");
+
+  // Hide after 3 seconds
+  setTimeout(() => {
+    toast.classList.add("opacity-0");
+    toast.classList.remove("opacity-100");
+  }, 3000);
+}
 
 /* ------------------------------------------------------
    FORM SUBMISSION — MERGED (BACKEND + VALIDATION)
@@ -691,10 +711,13 @@ document.getElementById("email-form").addEventListener("submit", async (e) => {
     const data = await res.json();
 
     if (data.success) {
-      // SUCCESS
-      msg.textContent = "Success! Welcome aboard.";
-      msg.className = "text-sm font-bold mt-2 text-green-500";
-      msg.classList.remove("hidden");
+      // SHOW TOAST ONLY ON SUCCESS
+        showToast();
+
+        msg.textContent = "Success! Welcome aboard.";
+        msg.className = "text-sm font-bold mt-2 text-green-500";
+        msg.classList.remove("hidden");
+
 
       emailInput.value = "";
     } else {
