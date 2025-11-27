@@ -661,7 +661,7 @@
   const email = emailInput.value.trim();
 
   if (!email) {
-    msg.textContent = "Please enter an email.";
+    
     msg.classList.remove("hidden");
     msg.style.color = "red";
     return;
@@ -676,18 +676,18 @@
     const data = await res.json();
 
     if (data.success) {
-      msg.textContent = "Registration saved!";
+      
       msg.classList.remove("hidden");
       msg.style.color = "green";
       emailInput.value = "";
     } else {
-      msg.textContent = "Error: try again later.";
+      
       msg.classList.remove("hidden");
       msg.style.color = "red";
     }
 
   } catch (err) {
-    msg.textContent = "Server error.";
+    
     msg.classList.remove("hidden");
     msg.style.color = "red";
   }
