@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zuari Finserv - Your Exclusive Gateway To Financial Wealth</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Google Fonts - Inter (Using for clean sans-serif look) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- AOS (Animate on Scroll) CDN -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000; /* Pure black base */
+            color: #FFFFFF;
+            /* Golden dust background effect */
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(217, 159, 78, 0.08) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(217, 159, 78, 0.08) 0%, transparent 20%),
+                radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 20px 20px;
+            background-attachment: fixed;
+        }
+        
+        /* Precise Colors from Screenshot */
+        :root {
+            --gold-primary: #FCA311; /* Vibrant Gold/Orange */
+            --gold-text: #E6A545;    /* Text Gold */
+            --green-accent: #A3E635; /* Lime Green for "Exclusive Perks" */
+            --card-bg: #0a0a0a;      /* Very dark card bg */
+            --card-border: #D99F4E;  /* Gold border */
+        }
+        
+        .text-gold { color: var(--gold-text); }
+        .text-green { color: var(--green-accent); }
+        .bg-gold { background-color: var(--gold-text); }
+        .border-gold { border-color: var(--card-border); }
+        
+        /* Button Style */
+        .btn-primary {
+            background-color: var(--gold-text);
+            color: #000000;
+            font-weight: 600;
+            border-radius: 0.5rem; /* Rounded-lg */
+            transition: all 0.2s;
+        }
+        .btn-primary:hover {
+            background-color: #FDBA74;
+        }
+
+        /* Custom Icons for Perks to match Line Art style */
+        .perk-icon {
+            stroke: var(--gold-text);
+            stroke-width: 1.5;
+            fill: none;
+        }
+        
+        /* Calculator & Interactive styles */
+        .calc-tab.active {
+            background-color: var(--gold-text);
+            color: black;
+            border-color: var(--gold-text);
+        }
+        .calc-tab {
+            border: 1px solid #333;
+            color: #9CA3AF;
+        }
+        
+        /* Range Slider Customization */
+        input[type=range] {
+            accent-color: var(--gold-text);
+        }
+        
+        /* FAQ Accordion */
+        .accordion-header.open .accordion-icon { transform: rotate(45deg); }
+        .accordion-icon { transition: transform 0.3s; }
+
+        /* Video Overlay Gradient */
+        .video-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 50%, transparent 100%);
+        }
+        /* Entire scrollbar width */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        /* Track (background) */
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;   /* your color */
+            border-radius: 10px;
+        }
+
+        /* Scroll thumb (the draggable part) */
+        ::-webkit-scrollbar-thumb {
+            background: #FDBA74;   /* your color */
+            border-radius: 10px;
+        }
+
+        /* Thumb on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff9f3c;   /* your color */
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- NAVBAR -->
+    <header class="fixed top-0 z-50 w-full bg-black/80 backdrop-blur-md border-b border-white/5">
+        <div class="container mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="flex h-20 items-center justify-between">
+                <!-- Logo Area -->
+                <a href="index.html" class="flex items-center gap-3 group">
+                    <!-- ZIC Logo Placeholder: Replace 'assets/zic-logo.png' with your real file path -->
+                    <img src="Images/ZMLOGO-inverted.webp" alt="ZIC Logo" class="h-10 w-auto object-contain">
+                    
+                    <!-- Text (Remove this div if your logo image includes the text) -->
+                    <!-- <div class="flex flex-col leading-none">
+                        <span class="text-2xl font-bold text-white tracking-wide group-hover:text-gold transition-colors">ZUARI</span>
+                        <span class="text-xs tracking-[0.3em] text-gray-400 uppercase">FINSERV</span>
+                    </div> -->
+                </a>
+
+                <!-- Desktop Nav (Exact Text from Screenshot) -->
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="index.html" class="text-sm font-medium text-white transition-colors">Home</a>
+                    <a href="beginner.html" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Beginner Zone</a>
+                    <a href="#journey" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Form</a>
+                    <a href="#" id="nav-talk-btn" class="btn-primary px-6 py-2.5 text-sm">Talk To Us</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white">
+                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-black border-t border-gray-800 absolute w-full">
+            <div class="px-4 py-4 space-y-3">
+                <a href="beginner.html" class="block text-gray-300 hover:text-white">Beginner Zone</a>
+                <a href="#journey" class="block text-gray-300 hover:text-white">Journey</a>
+                <a href="#" class="block text-gold-text">Talk To Us</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="pt-20">
+        
+        <!-- 
+        ========================================
+        HERO SECTION - FIXED ALIGNMENT
+        ========================================
+        -->
+        <section class="relative py-10 lg:py-16 overflow-hidden">
+            <div class="container mx-auto max-w-7xl px-6 lg:px-8">
+                <!-- Grid with NO items-start to allow stretching for bottom alignment -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
+                    
+                    <!-- LEFT COLUMN: Text + Video -->
+                    <!-- flex-col justify-between ensures content fills height and pushes video to bottom -->
+                    <div class="flex flex-col h-full justify-between" data-aos="fade-right">
+                        <!-- Headlines -->
+                        <div>
+                            <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight text-white">
+                                Welcome To <span class="text-gold">The Inner Circle</span>
+                                <br>
+                                Your Exclusive Gateway To Financial Wealth
+                            </h1>
+                            
+                            <p class="mt-4 text-lg text-gray-300 leading-relaxed max-w-2xl">
+                                At Zuari Inner Circle, We Help You Start Your Investing Journey
+                                <br class="hidden md:block">
+                                <strong class="text-white font-bold">With Your First SIP On Us.</strong>
+                            </p>
+                        </div>
+
+                        <!-- Video Player -->
+                        <div class="mt-6 w-full max-w-xl">
+                            <div class="relative aspect-video rounded-xl overflow-hidden border border-gold shadow-[0_0_30px_rgba(217,159,78,0.15)] bg-gray-900">
+                                
+                                <video 
+                                    class="absolute inset-0 w-full h-full object-cover"
+                                    src="Videos/Nisha (intro) 2.mp4"
+                                    controls
+                                    playsinline
+                                    
+                                ></video>
+
+                                <!-- Overlay Text -->
+                                <!-- <div class="absolute bottom-0 left-0 right-0 p-6 video-overlay pointer-events-none">
+                                    <h3 class="text-gold text-xl font-bold">Mr. Athar Shahab</h3>
+                                    <p class="text-gray-300 text-sm font-medium">MD, Zuari Industries Ltd</p>
+                                </div> -->
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT COLUMN: Exclusive Perks Card -->
+                    <div class="mt-8 lg:mt-0 h-full" data-aos="fade-left">
+                        <!-- h-full added here ensures the card border stretches to match left column -->
+                        <div class="relative h-full rounded-[2rem] border border-gold bg-[#080808] p-8 lg:p-10 shadow-[0_0_15px_rgba(217,159,78,0.1)] flex flex-col justify-center">
+                            
+                            <!-- Card Header -->
+                            <div class="mb-8">
+                                <h2 class="text-3xl font-bold text-green leading-tight">Exclusive Perks</h2>
+                                <h3 class="text-3xl font-bold text-white mt-1">Only For Our Employees</h3>
+                            </div>
+
+                            <!-- Perks List -->
+                            <div class="space-y-8">
+                                
+                                <!-- Item 1 -->
+                                <div class="flex items-start gap-5">
+                                    <div class="flex-shrink-0 mt-1">
+                                        <svg class="w-8 h-8 perk-icon" viewBox="0 0 24 24">
+                                            <path d="M22 10v6M2 10l10-5 10 5-10 5-10-5z"/>
+                                            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-lg font-bold text-gold">Expert Masterclasses</h4>
+                                        <p class="text-gray-400 text-sm leading-snug">Learn Directly From Industry Specialists.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Item 2 -->
+                                <div class="flex items-start gap-5">
+                                    <div class="flex-shrink-0 mt-1">
+                                        <svg class="w-8 h-8 perk-icon" viewBox="0 0 24 24">
+                                            <rect x="2" y="5" width="20" height="14" rx="2" />
+                                            <line x1="2" y1="10" x2="22" y2="10" />
+                                            <path d="M12 15a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" fill="currentColor" class="text-gold/20"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-lg font-bold text-white"> <span class="text-gold">Financial Support:EMI Match (Up To ₹4,999)</span></h4>
+                                        <p class="text-gray-400 text-sm leading-snug">We Co-Invest In Your Learning Journey.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Item 3 -->
+                                <div class="flex items-start gap-5">
+                                    <div class="flex-shrink-0 mt-1">
+                                        <svg class="w-8 h-8 perk-icon" viewBox="0 0 24 24">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                            <circle cx="12" cy="7" r="4" />
+                                            <path d="M16 3h5v5" stroke-linecap="square" stroke-dasharray="2 2"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-lg font-bold text-gold">Dedicated Relationship Manager</h4>
+                                        <p class="text-gray-400 text-sm leading-snug">Personal Guidance For All Your Financial Decisions.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Item 4 -->
+                                <div class="flex items-start gap-5">
+                                    <div class="flex-shrink-0 mt-1">
+                                        <svg class="w-8 h-8 perk-icon" viewBox="0 0 24 24">
+                                            <polyline points="20 12 20 22 4 22 4 12" />
+                                            <rect x="2" y="7" width="20" height="5" />
+                                            <line x1="12" y1="22" x2="12" y2="7" />
+                                            <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" />
+                                            <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-lg font-bold text-gold">Exclusive Joining Kit</h4>
+                                        <p class="text-gray-400 text-sm leading-snug">Special Welcome Kit For ZIC Members.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Item 5 -->
+                                <div class="flex items-start gap-5">
+                                    <div class="flex-shrink-0 mt-1">
+                                        <svg class="w-8 h-8 perk-icon" viewBox="0 0 24 24">
+                                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                            <circle cx="9" cy="7" r="4" />
+                                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-lg font-bold text-gold">Priority Access To Events & Offers</h4>
+                                        <p class="text-gray-400 text-sm leading-snug">Early Access To Sessions, Workshops, And Community Perks.</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+        ========================================
+        SECTION 2: JOURNEY (Timeline)
+        ========================================
+        -->
+        <section id="journey" class="py-24 bg-[#050505] border-t border-white/5">
+            <div class="container mx-auto max-w-7xl px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <!-- Left: Timeline -->
+                    <div data-aos="fade-right">
+                        <h2 class="text-4xl font-bold text-white mb-12">Your Journey to Growth</h2>
+                        <div class="relative pl-4">
+                            <!-- Line -->
+                            <div class="absolute left-[27px] top-4 bottom-10 w-0.5 bg-gray-700"></div>
+                            
+                            <!-- Step 1 -->
+                            <div class="relative flex items-start gap-8 mb-10">
+                                <div class="z-10 flex items-center justify-center w-6 h-6 rounded-full bg-green-500 mt-1 shrink-0"></div>
+                                <div>
+                                    <h3 class="text-2xl font-bold text-green">Enroll</h3>
+                                    <p class="text-gray-400 mt-1">Sign up with your email and OTP</p>
+                                </div>
+                            </div>
+                            <!-- Step 2 -->
+                            <div class="relative flex items-start gap-8 mb-10">
+                                <div class="z-10 flex items-center justify-center w-6 h-6 rounded-full bg-white mt-1 shrink-0"></div>
+                                <div>
+                                    <h3 class="text-2xl font-bold text-white">Connect</h3>
+                                    <p class="text-gray-400 mt-1">We setup your call with a relationship manager</p>
+                                </div>
+                            </div>
+                            <!-- Step 3 -->
+                            <div class="relative flex items-start gap-8 mb-10">
+                                <div class="z-10 flex items-center justify-center w-6 h-6 rounded-full bg-red-500 mt-1 shrink-0"></div>
+                                <div>
+                                    <h3 class="text-2xl font-bold text-red-500">Invest</h3>
+                                    <p class="text-gray-400 mt-1">Your plan goes live with Auto-SIP</p>
+                                </div>
+                            </div>
+                            <!-- Step 4 -->
+                            <div class="relative flex items-start gap-8">
+                                <div class="z-10 flex items-center justify-center w-6 h-6 rounded-full bg-green-500 mt-1 shrink-0"></div>
+                                <div>
+                                    <h3 class="text-2xl font-bold text-green">Grow</h3>
+                                    <p class="text-gray-400 mt-1">Watch your money grow</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Form -->
+                    <div data-aos="fade-left">
+                        <div class="mb-8">
+                            <h2 class="text-3xl font-bold text-white">New To Investing??</h2>
+                            <a href="beginner.html" class="text-xl text-gold font-bold underline decoration-gold decoration-2 underline-offset-4 hover:text-white transition-colors">Go To Beginner Section</a>
+                        </div>
+                        
+                        <a href="https://calendly.com/admin-zuari360/30min" class="inline-block bg-gray-800 hover:bg-gray-700 text-white font-semibold py-3 px-6 rounded-lg mb-8 transition-colors border border-gray-700">
+                            Talk To Relationship Manager
+                        </a>
+
+                        <div class="bg-gold p-8 rounded-2xl shadow-xl">
+                            <h3 class="text-xl font-bold text-black mb-2">Membership Registration</h3>
+                            <form id="email-form" class="space-y-4">
+                                <div>
+                                    <input 
+                                        type="email" 
+                                        id="email-input"
+                                        placeholder="you@adventz.com" 
+                                        class="w-full px-4 py-3.5 rounded-lg border-0 bg-white text-black placeholder-gray-500 focus:ring-2 focus:ring-black"
+                                    >
+                                    <p id="email-msg" class="text-sm font-bold mt-2 hidden"></p>
+                                </div>
+                                <button type="submit" class="w-full bg-white hover:bg-gray-100 text-black font-extrabold py-3.5 rounded-lg transition-colors text-lg">
+                                    I'm Interested
+                                </button>
+                            </form>
+                            <p class="text-center text-sm font-semibold text-black/70 mt-4 italic">Hurry Up — Limited Slots. Enroll Now.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+        ========================================
+        SECTION 3: WHY (Features) - UPDATED TO MATCH SCREENSHOT EXACTLY
+        ========================================
+        -->
+        <section class="py-24">
+            <div class="container mx-auto max-w-6xl px-6 lg:px-8">
+                <div class="text-center max-w-4xl mx-auto mb-16" data-aos="fade-up">
+                    <h2 class="text-4xl lg:text-5xl font-bold text-white">
+                        Why We Have Created <span class="text-gold">Inner Circle?</span>
+                    </h2>
+                    <p class="mt-6 text-gray-300 text-lg leading-relaxed">
+                        Investing Can Feel Confusing, And Many Of Us Think We're Too Late Or Too Busy To Start.
+                        The <span class="font-bold text-white">Inner Circle</span> Is Here To Make It Easier, With Simple Guidance And A Clear, Confident Way To Grow Your Money.
+                    </p>
+                </div>
+
+                <div class="space-y-5" data-aos="fade-up" data-aos-delay="100">
+                    
+                    <!-- Card 1 -->
+                    <div class="border border-gold bg-[#0a0a0a] p-6 rounded-xl text-center hover:bg-white/5 transition-colors">
+                        <h3 class="text-xl font-bold text-gold">Give Every Employee A Trusted Place To Learn About Money</h3>
+                        <p class="text-gray-300 mt-1 text-base">No Jargon. No Judgement. Just Simple, Practical Guidance For Real Life.</p>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="border border-gold bg-[#0a0a0a] p-6 rounded-xl text-center hover:bg-white/5 transition-colors">
+                        <h3 class="text-xl font-bold text-gold">Support People Who Want To Invest But Don't Know How</h3>
+                        <p class="text-gray-300 mt-1 text-base">Most People Want To Save And Grow Wealth — ZIC Helps Bridge That Gap.</p>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="border border-gold bg-[#0a0a0a] p-6 rounded-xl text-center hover:bg-white/5 transition-colors">
+                        <h3 class="text-xl font-bold text-gold">Ensure Financial Strength Starts Within Our Own Group</h3>
+                        <p class="text-gray-300 mt-1 text-base">Your Relationship Manager Is Part Of The Zuari Ecosystem — Someone Who Understands Our Organisation, Culture, And People.</p>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="border border-gold bg-[#0a0a0a] p-6 rounded-xl text-center hover:bg-white/5 transition-colors">
+                        <h3 class="text-xl font-bold text-gold">Help Employees Build Long-Term Financial Security</h3>
+                        <p class="text-gray-300 mt-1 text-base">When People Feel Secure And Confident About Their Future, Their Wellbeing — At Work And Home — Improves Significantly.</p>
+                    </div>
+
+                    <!-- Card 5 -->
+                    <div class="border border-gold bg-[#0a0a0a] p-6 rounded-xl text-center hover:bg-white/5 transition-colors">
+                        <h3 class="text-xl font-bold text-gold">Create A Culture Where Learning And Financial Growth Move Together</h3>
+                        <p class="text-gray-300 mt-1 text-base">Through Masterclasses, Expert Sessions, And Personalised Help, ZIC Becomes A Space For Continuous, Community-Driven Learning.</p>
+                    </div>
+
+                    <!-- Card 6 -->
+                    <div class="border border-gold bg-[#0a0a0a] p-6 rounded-xl text-center hover:bg-white/5 transition-colors">
+                        <h3 class="text-xl font-bold text-gold">Remove Fear And Replace It With Confidence</h3>
+                        <p class="text-gray-300 mt-1 text-base">ZIC Provides The Clarity And Support Needed To Take The First Step — And Stay Consistent.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+        ========================================
+        SECTION 4: WHAT IS MUTUAL FUND
+        ========================================
+        -->
+        <section class="py-24 bg-[#050505] border-t border-white/5">
+            <div class="container mx-auto max-w-7xl px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                    <div class="space-y-12" data-aos="fade-right">
+                        <div>
+                            <h2 class="text-4xl font-bold text-white">What is a <span class="text-gold">Mutual Fund?</span></h2>
+                            <p class="mt-4 text-lg text-gray-300">It's a simple and smart way for investors to pool their money in mutual funds, managed by experts.</p>
+                        </div>
+                        <div>
+                            <h2 class="text-4xl font-bold text-white">What is a <span class="text-gold">SIP?</span></h2>
+                            <p class="mt-4 text-lg text-gray-300">Systematic Investment Plan. A disciplined way to invest small amounts regularly.</p>
+                        </div>
+                    </div>
+
+                    <div data-aos="fade-left">
+    <!-- Main Player -->
+    <div class="aspect-video bg-black rounded-xl border border-gold overflow-hidden relative mb-4 shadow-lg">
+        <video 
+            id="main-video-player"
+            class="w-full h-full object-cover"
+            src="Videos/Ruchi (SIP & MF) 2.mp4"
+            controls
+            playsinline
+        ></video>
+    </div>
+
+    <!-- Thumbnails -->
+    <div class="grid grid-cols-3 gap-4">
+
+        <!-- Nisha -->
+        <div 
+            data-video="Videos/Nisha (About ZIC) 2.mp4"
+            onclick="changeLocalVideo('Videos/Nisha (About ZIC) 2.mp4')"
+            class="cursor-pointer aspect-video rounded border border-transparent hover:border-gold overflow-hidden relative">
+
+            <div class="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/10 transition-all">
+                <span class="text-2xl text-white">▶</span>
+            </div>
+
+            <div class="absolute bottom-0 w-full bg-black/60 text-white text-xs sm:text-sm px-2 py-1 text-center">
+                About ZIC
+            </div>
+        </div>
+
+        <!-- Nivesh -->
+        <div 
+            data-video="Videos/Nivesh (why investment) 2.mp4"
+            onclick="changeLocalVideo('Videos/Nivesh (why investment) 2.mp4')"
+            class="cursor-pointer aspect-video rounded border border-transparent hover:border-gold overflow-hidden relative">
+
+            <div class="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/10 transition-all">
+                <span class="text-2xl text-white">▶</span>
+            </div>
+
+            <div class="absolute bottom-0 w-full bg-black/60 text-white text-xs sm:text-sm px-2 py-1 text-center">
+                Why Investment
+            </div>
+        </div>
+
+        <!-- Ruchi -->
+        <div 
+            data-video="Videos/Ruchi (SIP & MF) 2.mp4"
+            onclick="changeLocalVideo('Videos/Ruchi (SIP & MF) 2.mp4')"
+            class="cursor-pointer aspect-video rounded border border-transparent hover:border-gold overflow-hidden relative">
+
+            <div class="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/10 transition-all">
+                <span class="text-2xl text-white">▶</span>
+            </div>
+
+            <div class="absolute bottom-0 w-full bg-black/60 text-white text-xs sm:text-sm px-2 py-1 text-center">
+                SIP & MF
+            </div>
+        </div>
+
+    </div>
+</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+        ========================================
+        SECTION 5: CALCULATOR
+        ========================================
+        -->
+        <section id="calculator" class="py-24 overflow-hidden">
+            <div class="container mx-auto max-w-7xl px-6 lg:px-8">
+                <div class="text-center mb-12" data-aos="fade-up">
+                    <h2 class="text-4xl lg:text-5xl font-bold text-white">
+                        Plan Your Goal. <span class="text-gold">We Will Help You Get There.</span>
+                    </h2>
+                </div>
+
+                <!-- Tabs -->
+                <div class="flex flex-wrap justify-center gap-4 mb-12" data-aos="fade-up">
+                    <button onclick="setGoal('home', this)" class="calc-tab active px-6 py-3 rounded-full font-medium transition-all">Home Loan</button>
+                    <button onclick="setGoal('car', this)" class="calc-tab px-6 py-3 rounded-full font-medium transition-all">Car Loan</button>
+                    <button onclick="setGoal('edu', this)" class="calc-tab px-6 py-3 rounded-full font-medium transition-all">Child Education</button>
+                    <button onclick="setGoal('retire', this)" class="calc-tab px-6 py-3 rounded-full font-medium transition-all">Retirement</button>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center" data-aos="fade-up">
+                    <!-- Chart -->
+                    <div class="lg:col-span-3 bg-[#0a0a0a] p-6 rounded-2xl border border-white/10 h-[400px] relative">
+                        <canvas id="finChart"></canvas>
+                    </div>
+                    
+                    <!-- Inputs -->
+                    <div class="lg:col-span-2 space-y-8">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <label class="text-gray-300">Amount / Cost</label>
+                                <span class="text-gold font-bold" id="amt-display">₹ 25,00,000</span>
+                            </div>
+                            <input type="range" id="amount" min="100000" max="10000000" step="50000" value="2500000" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <label class="text-gray-300">Duration (Years)</label>
+                                <span class="text-gold font-bold" id="time-display">20 Yrs</span>
+                            </div>
+                            <input type="range" id="time" min="1" max="30" step="1" value="20" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+                        </div>
+                        <div class="bg-gray-900 p-4 rounded-lg border border-white/5 text-center">
+                            <p class="text-sm text-gray-400">Estimated Monthly Investment/EMI</p>
+                            <p class="text-2xl font-bold text-green mt-1" id="result-display">₹ 21,696</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+        ========================================
+        SECTION 6: FAQ
+        ========================================
+        -->
+        <section class="py-24 bg-[#050505]">
+            <div class="container mx-auto max-w-4xl px-6 lg:px-8">
+                <h2 class="text-4xl font-bold text-center mb-16">
+                    Frequently Asked <span class="text-green">Questions</span>
+                </h2>
+                <div class="space-y-4">
+                    <div class="bg-gray-900/50 rounded-xl overflow-hidden border border-white/5">
+                        <button class="accordion-header w-full flex justify-between items-center p-6 text-left" onclick="toggleFaq(this)">
+                            <span class="text-xl font-bold text-gold">How do I get my 1st SIP EMI free?</span>
+                            <span class="accordion-icon text-2xl text-gold">+</span>
+                        </button>
+                        <div class="hidden p-6 pt-0 text-gray-300 border-t border-white/5 mt-2">
+                            Start a new SIP via Zuari Inner Circle. After verification, we credit the amount.
+                        </div>
+                    </div>
+                    <div class="bg-gray-900/50 rounded-xl overflow-hidden border border-white/5">
+                        <button class="accordion-header w-full flex justify-between items-center p-6 text-left" onclick="toggleFaq(this)">
+                            <span class="text-xl font-bold text-gold">Who is eligible?</span>
+                            <span class="accordion-icon text-2xl text-gold">+</span>
+                        </button>
+                        <div class="hidden p-6 pt-0 text-gray-300 border-t border-white/5 mt-2">
+                            All active Adventz Group employees are eligible.
+                        </div>
+                    </div>
+                    <div class="bg-gray-900/50 rounded-xl overflow-hidden border border-white/5">
+                        <button class="accordion-header w-full flex justify-between items-center p-6 text-left" onclick="toggleFaq(this)">
+                            <span class="text-xl font-bold text-gold">Are there hidden charges?</span>
+                            <span class="accordion-icon text-2xl text-gold">+</span>
+                        </button>
+                        <div class="hidden p-6 pt-0 text-gray-300 border-t border-white/5 mt-2">
+                            Zero. It's a free benefit for employees.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="py-12 border-t border-white/10 bg-black text-center">
+            <div class="container mx-auto px-6">
+                <div class="flex justify-center gap-6 mb-8 text-gray-500">
+                    <a href="https://www.facebook.com/p/Zuari-Finserv-Ltd-100064217161384/" class="hover:text-white">Facebook</a>
+                    <a href="https://www.linkedin.com/company/zuari-finserv-limited/" class="hover:text-white">LinkedIn</a>
+                    <a href="https://www.instagram.com/zuarifinservlimited?igsh=MTRyczB1MWs1MWVpYg==" class="hover:text-white">Instagram</a>
+                </div>
+                <p class="text-gray-500 text-sm">© 2025 Zuari Finserv. All rights reserved.</p>
+                <p class="text-gray-600 text-xs mt-2">Mutual Fund investments are subject to market risks.</p>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- SCRIPTS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+
+        document.getElementById("email-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const emailInput = document.getElementById("email-input");
+  const msg = document.getElementById("email-msg");
+  msg.classList.add("hidden");
+
+  const email = emailInput.value.trim();
+
+  if (!email) {
+    msg.textContent = "Please enter an email.";
+    msg.classList.remove("hidden");
+    msg.style.color = "red";
+    return;
+  }
+
+  try {
+    const res = await fetch("/api/register", {
+      method: "POST",
+      body: JSON.stringify({ email })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      msg.textContent = "Registration saved!";
+      msg.classList.remove("hidden");
+      msg.style.color = "green";
+      emailInput.value = "";
+    } else {
+      msg.textContent = "Error: try again later.";
+      msg.classList.remove("hidden");
+      msg.style.color = "red";
+    }
+
+  } catch (err) {
+    msg.textContent = "Server error.";
+    msg.classList.remove("hidden");
+    msg.style.color = "red";
+  }
+});
+    
+
+
+
+
+
+
+
+        function changeLocalVideo(src) {
+    const player = document.getElementById('main-video-player');
+    player.src = src;
+    player.play();
+}
+
+// AUTO-THUMBNAIL GENERATOR
+async function generateThumbnail(videoSrc, container) {
+    return new Promise(resolve => {
+        const video = document.createElement('video');
+        video.src = videoSrc;
+        video.crossOrigin = "anonymous";
+        video.muted = true;
+        video.playsInline = true;
+
+        video.addEventListener('loadeddata', () => {
+            video.currentTime = 0.5; // pick frame at 0.5 sec
+        });
+
+        video.addEventListener('seeked', () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            const thumbnailURL = canvas.toDataURL('image/jpeg');
+
+            container.style.backgroundImage = `url(${thumbnailURL})`;
+            container.style.backgroundSize = "cover";
+            container.style.backgroundPosition = "center";
+
+            resolve();
+        });
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const thumbItems = document.querySelectorAll("[data-video]");
+    thumbItems.forEach(div => {
+        generateThumbnail(div.dataset.video, div);
+    });
+});
+        // Init AOS
+        AOS.init({ duration: 800, offset: 50 });
+
+        // Mobile Menu
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        // Placeholder Links
+        document.getElementById('nav-talk-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.open('https://calendly.com/admin-zuari360/30min', '_blank');
+        });
+
+        // Email Validation
+        const emailForm = document.getElementById('email-form');
+        const emailMsg = document.getElementById('email-msg');
+        emailForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const val = document.getElementById('email-input').value;
+            const regex = /^[a-zA-Z0-9._%+-]+@adventz\.com$/;
+            emailMsg.classList.remove('hidden');
+            if(regex.test(val)) {
+                emailMsg.innerText = "Success! Welcome aboard.";
+                emailMsg.className = "text-sm font-bold mt-2 text-green-500";
+                console.log("Logged:", val);
+            } else {
+                emailMsg.innerText = "Please use an @adventz.com email.";
+                emailMsg.className = "text-sm font-bold mt-2 text-red-500";
+            }
+        });
+
+        // Video Switcher for Mutual Fund Section
+        function changeLocalVideo(src) {
+            const mainVideo = document.getElementById('main-video-player');
+            if (mainVideo) {
+                mainVideo.src = src;
+                // Added error handling for play() to prevent Unhandled Rejection in environments where files are missing
+                var playPromise = mainVideo.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log('Media play prevented or failed (likely missing file in this demo environment):', error);
+                    });
+                }
+            }
+        }
+
+        // FAQ Toggle
+        function toggleFaq(btn) {
+            const content = btn.nextElementSibling;
+            const icon = btn.querySelector('.accordion-icon');
+            content.classList.toggle('hidden');
+            if(!content.classList.contains('hidden')) {
+                icon.innerText = "−"; // Minus
+                icon.style.transform = "rotate(0deg)";
+            } else {
+                icon.innerText = "+";
+                icon.style.transform = "rotate(0deg)";
+            }
+        }
+
+        // Calculator Logic (Simplified for layout)
+        const ctx = document.getElementById('finChart').getContext('2d');
+        let myChart;
+
+        const amountInput = document.getElementById('amount');
+        const timeInput = document.getElementById('time');
+        const amtDisplay = document.getElementById('amt-display');
+        const timeDisplay = document.getElementById('time-display');
+        const resDisplay = document.getElementById('result-display');
+
+        function updateChart(p, r, n, type) {
+            if(myChart) myChart.destroy();
+            
+            // Simple EMI Calculation for visuals
+            let emi = 0;
+            let total = 0;
+            let interest = 0;
+            
+            // Standard formulas
+            if(type === 'loan') {
+                r = r / 12 / 100;
+                n = n * 12;
+                emi = (p * r * Math.pow(1+r, n)) / (Math.pow(1+r,n)-1);
+                total = emi * n;
+                interest = total - p;
+                resDisplay.innerText = "₹ " + Math.round(emi).toLocaleString();
+            } else {
+                // SIP
+                // Just a dummy visual for SIP
+                emi = p; // Monthly investment
+                resDisplay.innerText = "₹ " + Math.round(emi).toLocaleString();
+                total = p * n * 12 * 1.5; // Dummy returns
+                interest = total - (p * n * 12);
+            }
+
+            myChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Principal', 'Interest/Returns'],
+                    datasets: [{
+                        data: [p, interest],
+                        backgroundColor: ['#FCA311', '#333333'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: '#fff' } }
+                    }
+                }
+            });
+        }
+
+        let currentType = 'loan';
+
+        function setGoal(goal, btn) {
+            document.querySelectorAll('.calc-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            if(goal === 'home' || goal === 'car') currentType = 'loan';
+            else currentType = 'sip';
+            
+            recalc();
+        }
+
+        function recalc() {
+            const p = parseInt(amountInput.value);
+            const t = parseInt(timeInput.value);
+            
+            amtDisplay.innerText = "₹ " + p.toLocaleString();
+            timeDisplay.innerText = t + " Yrs";
+            
+            updateChart(p, 8.5, t, currentType);
+        }
+
+        amountInput.addEventListener('input', recalc);
+        timeInput.addEventListener('input', recalc);
+
+        // Init
+        recalc();
+
+    </script>
+</body>
+</html>

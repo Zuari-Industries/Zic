@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beginner Zone - ZIC</title>
+    <meta name="description" content="New to investing? Start here with ZIC's beginner-friendly guide and personalized support.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        // Updated to match index.html Gold (#E6A545)
+                        'zic-orange': '#E6A545', 
+                        'zic-dark': '#050505',
+                        'zic-card': '#ffffff',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles for specifics not covered by utility classes */
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            /* Matching index.html background */
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(217, 159, 78, 0.08) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(217, 159, 78, 0.08) 0%, transparent 20%),
+                radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 20px 20px;
+            background-attachment: fixed;
+        }
+        
+        /* Button Style from index.html */
+        .btn-primary {
+            background-color: #E6A545;
+            color: #000000;
+            font-weight: 600;
+            border-radius: 0.5rem; /* Rounded-lg */
+            transition: all 0.2s;
+        }
+        .btn-primary:hover {
+            background-color: #FDBA74;
+        }
+        
+        .text-gold-text {
+            color: #E6A545;
+        }
+
+        .text-glow {
+            text-shadow: 0 0 20px rgba(230, 165, 69, 0.3);
+        }
+
+        /* Timeline Connector Line */
+        .timeline-line {
+            position: absolute;
+            top: 2rem; /* Center of the circle roughly */
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #E6A545;
+            z-index: 0;
+            transform: translateY(-50%);
+        }
+        
+        @media (max-width: 768px) {
+            .timeline-line {
+                display: none; /* Hide horizontal line on mobile */
+            }
+            .mobile-timeline-line {
+                position: absolute;
+                left: 50%;
+                top: 0;
+                bottom: 0;
+                width: 2px;
+                background-color: #E6A545;
+                transform: translateX(-50%);
+                z-index: 0;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-zic-orange selection:text-black flex flex-col min-h-screen">
+
+    <header class="fixed top-0 z-50 w-full bg-black/80 backdrop-blur-md border-b border-white/5">
+        <div class="container mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="flex h-20 items-center justify-between">
+                <!-- Logo Area -->
+                <a href="index.html" class="flex items-center gap-3 group">
+                    <!-- ZIC Logo Placeholder -->
+                    <img src="Images/ZMLOGO-inverted.webp" alt="ZIC Logo" class="h-10 w-auto object-contain">
+                </a>
+
+                <!-- Desktop Nav -->
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="index.html" class="text-sm font-medium text-white transition-colors">Home</a>
+                    <a href="beginner.html" class="text-sm font-medium text-white transition-colors">Beginner Zone</a>
+                    <a href="index.html#journey" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Form</a>
+                    <a href="https://calendly.com/admin-zuari360/30min" id="nav-talk-btn" class="btn-primary px-6 py-2.5 text-sm">Talk To Us</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white">
+                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-black border-t border-gray-800 absolute w-full">
+            <div class="px-4 py-4 space-y-3">
+                <a href="beginner.html" class="block text-gray-300 hover:text-white">Beginner Zone</a>
+                <a href="index.html#journey" class="block text-gray-300 hover:text-white">Journey</a>
+                <a href="https://calendly.com/admin-zuari360/30min" class="block text-gold-text">Talk To Us</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Wrapper -->
+    <div class="pt-32 pb-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto flex flex-col items-center flex-grow">
+
+        <!-- Header Badge -->
+        <div data-aos="fade-down" class="mb-8">
+            <span class="bg-zic-orange text-black text-lg sm:text-xl font-extrabold px-8 py-3 rounded-full shadow-lg shadow-orange-500/20">
+                Beginner Zone
+            </span>
+        </div>
+
+        <!-- Hero Text Section -->
+        <div class="text-center max-w-4xl mx-auto mb-12 space-y-6">
+            <h1 class="text-3xl sm:text-4xl font-bold" data-aos="fade-up">
+                <span class="text-zic-orange">New To Investing?</span> <span class="text-white">Start Here.</span>
+            </h1>
+            
+            <p class="text-gray-300 text-base sm:text-lg leading-relaxed" data-aos="fade-up" data-aos-delay="100">
+                Most People Feel Unsure When They Think About Investing — And That’s Completely Normal. 
+                ZIC Is Designed Exactly For Employees Who Are New To The Investment World Or Have Never Taken The First Step.
+            </p>
+
+            <h2 class="text-xl sm:text-2xl font-semibold pt-4" data-aos="fade-up" data-aos-delay="200">
+                <span class="text-white">You Don't Need Experience.</span> 
+                <span class="text-zic-orange">You Just Need Guidance.</span>
+            </h2>
+
+            <p class="text-gray-300 text-sm sm:text-base max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="300">
+                Through Simple Explanations, Personalized Support, And Step-By-Step Clarity, We Help You Make Confident Financial Decisions — No Jargon, No Pressure.
+            </p>
+        </div>
+
+        <!-- "How We Help Beginners" Orange Card Section -->
+        <div class="w-full bg-zic-orange rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden mb-16" data-aos="zoom-in">
+            <!-- Title inside orange box -->
+            <h3 class="text-black text-2xl sm:text-3xl font-bold text-center mb-10">How We Help Beginners</h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- Card 1 -->
+                <div class="bg-white rounded-xl p-6 shadow-lg text-black h-full flex flex-col" data-aos="fade-up" data-aos-delay="100">
+                    <h4 class="font-bold text-lg mb-3">1. Your Own Relationship Manager (RM)</h4>
+                    <p class="text-sm font-semibold text-gray-700 mb-2">A Dedicated RM Who:</p>
+                    <ul class="list-disc pl-5 space-y-1 text-sm text-gray-800 flex-grow">
+                        <li>Explains Everything From Scratch</li>
+                        <li>Helps You Set Goals</li>
+                        <li>Answers Even The Simplest Questions</li>
+                        <li>Supports You Throughout Your Journey</li>
+                    </ul>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-white rounded-xl p-6 shadow-lg text-black h-full flex flex-col" data-aos="fade-up" data-aos-delay="200">
+                    <h4 class="font-bold text-lg mb-3">2. Start Small, Grow Steadily</h4>
+                    <p class="text-sm text-gray-800 mb-2">You Don't Need A Large Amount To Begin.</p>
+                    <p class="text-sm text-gray-800 mb-2">Even A Small Monthly SIP Can Help You Build Long-Term Savings.</p>
+                    <p class="text-sm text-gray-800 font-medium">Your RM Will Help You Decide How Much To Start With.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-white rounded-xl p-6 shadow-lg text-black h-full flex flex-col" data-aos="fade-up" data-aos-delay="300">
+                    <h4 class="font-bold text-lg mb-3">3. Simple Learning Sessions</h4>
+                    <p class="text-sm text-gray-800">
+                        Expert-Led Masterclasses That Explain Investing In Easy, Everyday Language. No Technical Terms. No Complicated Charts. Just Clarity.
+                    </p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="bg-white rounded-xl p-6 shadow-lg text-black h-full flex flex-col" data-aos="fade-up" data-aos-delay="400">
+                    <h4 class="font-bold text-lg mb-3">4. A Trusted, Internal Team</h4>
+                    <p class="text-sm text-gray-800 mb-2">You Are Not Dealing With A Stranger Or A Call Centre.</p>
+                    <p class="text-sm text-gray-800">
+                        Your Support Comes From Inside The Zuari Group Ecosystem, Making This Safe, Reliable, And Truly Personal.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Timeline Section -->
+        <div class="w-full max-w-5xl mb-20">
+            <h3 class="text-center text-2xl sm:text-3xl font-bold mb-12" data-aos="fade-up">
+                <span class="text-white">Beginner-Friendly</span> <span class="text-zic-orange">3-Step Start</span>
+            </h3>
+
+            <div class="relative">
+                <!-- Desktop Horizontal Line (Hidden on Mobile) -->
+                <div class="hidden md:block absolute top-10 left-[10%] right-[10%] h-1 bg-zic-orange -z-10"></div>
+
+                <div class="flex flex-col md:flex-row justify-between items-center md:items-start gap-10 md:gap-4 relative">
+                    
+                    <!-- Mobile Vertical Line (Hidden on Desktop) -->
+                    <div class="md:hidden absolute left-1/2 top-0 bottom-0 w-1 bg-zic-orange -translate-x-1/2 -z-10"></div>
+
+                    <!-- Step 1 -->
+                    <div class="flex flex-col items-center text-center w-full md:w-1/3 bg-black md:bg-transparent p-4 md:p-0 z-10" data-aos="fade-up" data-aos-delay="100">
+                        <div class="w-20 h-20 bg-zic-orange rounded-full flex items-center justify-center text-black text-3xl font-bold mb-4 shadow-lg shadow-orange-500/30 border-4 border-black">
+                            1
+                        </div>
+                        <h4 class="text-zic-orange font-bold text-xl mb-2">Join ZIC</h4>
+                        <p class="text-gray-400 text-sm max-w-xs">Sign up using your employee ID.</p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="flex flex-col items-center text-center w-full md:w-1/3 bg-black md:bg-transparent p-4 md:p-0 z-10" data-aos="fade-up" data-aos-delay="300">
+                        <div class="w-20 h-20 bg-zic-orange rounded-full flex items-center justify-center text-black text-3xl font-bold mb-4 shadow-lg shadow-orange-500/30 border-4 border-black">
+                            2
+                        </div>
+                        <h4 class="text-zic-orange font-bold text-xl mb-2">Talk to Your RM</h4>
+                        <p class="text-gray-400 text-sm max-w-xs">A short call or meet-up where your RM understands your goals and comfort level.</p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="flex flex-col items-center text-center w-full md:w-1/3 bg-black md:bg-transparent p-4 md:p-0 z-10" data-aos="fade-up" data-aos-delay="500">
+                        <div class="w-20 h-20 bg-zic-orange rounded-full flex items-center justify-center text-black text-3xl font-bold mb-4 shadow-lg shadow-orange-500/30 border-4 border-black">
+                            3
+                        </div>
+                        <h4 class="text-zic-orange font-bold text-xl mb-2">Begin Your Plan</h4>
+                        <p class="text-gray-400 text-sm max-w-xs">Start with a small SIP or beginner-friendly option.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Big Callout -->
+            <div class="text-center mt-16" data-aos="zoom-in">
+                <h3 class="text-xl sm:text-3xl font-bold">
+                    <span class="text-white">That's It.</span> 
+                    <span class="text-zic-orange">Your RM Handles Everything Else.</span>
+                </h3>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="w-full max-w-4xl mb-16">
+            <h3 class="text-2xl sm:text-3xl font-bold mb-8 text-left" data-aos="fade-right">
+                <span class="text-zic-orange">Beginner Zone</span> <span class="text-white">FAQ</span>
+            </h3>
+
+            <div class="space-y-8" data-aos="fade-up">
+                
+                <!-- Q1 -->
+                <div class="bg-white/5 p-6 rounded-xl border border-white/10 hover:border-zic-orange/50 transition-colors">
+                    <p class="text-white text-lg font-semibold mb-2">
+                        Q: I Know Nothing About Investments. Can I Still Join?
+                    </p>
+                    <p class="text-gray-300">
+                        Yes — ZIC Is Made For You. Your RM Will Guide You From Basics To Action.
+                    </p>
+                </div>
+
+                <!-- Q2 -->
+                <div class="bg-white/5 p-6 rounded-xl border border-white/10 hover:border-zic-orange/50 transition-colors">
+                    <p class="text-white text-lg font-semibold mb-2">
+                        Q: Can I Start With A Small Amount?
+                    </p>
+                    <p class="text-gray-300">
+                        Absolutely. You Decide The Amount. Even ₹500–₹1,000 Per Month Is A Good Start.
+                    </p>
+                </div>
+
+                <!-- Q3 -->
+                <div class="bg-white/5 p-6 rounded-xl border border-white/10 hover:border-zic-orange/50 transition-colors">
+                    <p class="text-white text-lg font-semibold mb-2">
+                        Q: Will Someone Explain Everything To Me?
+                    </p>
+                    <p class="text-gray-300">
+                        Yes. Your RM Will Simplify Every Concept Based On Your Level.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FOOTER (Replicated from index.html) -->
+    <footer class="py-12 border-t border-white/10 bg-black text-center w-full">
+        <div class="container mx-auto px-6">
+            <div class="flex justify-center gap-6 mb-8 text-gray-500">
+                <a href="https://www.facebook.com/p/Zuari-Finserv-Ltd-100064217161384/" class="hover:text-white">Facebook</a>
+                <a href="https://www.linkedin.com/company/zuari-finserv-limited/" class="hover:text-white">Instagram</a>
+                <a href="https://www.instagram.com/zuarifinservlimited?igsh=MTRyczB1MWs1MWVpYg==" class="hover:text-white">LinkedIn</a>
+            </div>
+            <p class="text-gray-500 text-sm">© 2025 Zuari Finserv. All rights reserved.</p>
+            <p class="text-gray-600 text-xs mt-2">Mutual Fund investments are subject to market risks.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS Animation
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+
+        // Mobile Menu Logic
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Navbar Scroll Effect (Glassmorphism enhancement)
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('header');
+            if (window.scrollY > 20) {
+                navbar.classList.add('shadow-md');
+            } else {
+                navbar.classList.remove('shadow-md');
+            }
+        });
+    </script>
+</body>
+</html>
