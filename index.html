@@ -663,7 +663,7 @@
   if (!email) {
     
     msg.classList.remove("hidden");
-    msg.style.color = "red";
+    
     return;
   }
 
@@ -678,7 +678,7 @@
     if (data.success) {
       
       msg.classList.remove("hidden");
-      msg.style.color = "green";
+     
       emailInput.value = "";
     } else {
       
@@ -689,7 +689,7 @@
   } catch (err) {
     
     msg.classList.remove("hidden");
-    msg.style.color = "red";
+    
   }
 });
     
