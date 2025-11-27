@@ -718,9 +718,15 @@ document.getElementById("email-form").addEventListener("submit", async (e) => {
         showToast();
 
        msg.textContent = "Success! Welcome aboard.";
-       msg.className =
-       "text-base font-extrabold mt-3 text-[#A3E635] bg-[#A3E635]/15 px-3 py-2 rounded-md border border-[#A3E635]/40 shadow-sm";
-       msg.classList.remove("hidden");
+msg.className =
+  "text-base font-extrabold mt-3 text-[#A3E635] bg-[#A3E635]/15 px-3 py-2 rounded-md border border-[#A3E635]/40 shadow-sm";
+msg.classList.remove("hidden");
+
+// Auto-hide after 3 seconds
+setTimeout(() => {
+  msg.classList.add("hidden");
+}, 3000);
+
 
 
 
